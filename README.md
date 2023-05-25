@@ -19,21 +19,21 @@
 
 ## productsテーブル
 
-| Column             | Type       | Options                        |
-| ------------------ | ---------- | ------------------------------ |
-| title              | string     | null: false                    |
-| description        | text       | null: false                    |
-| price              | integer    | null: false                    |
-| condition          | integer    | null: false                    |
-| category           | integer    | null: false                    |
-| shipping_days      | integer    | null: false                    |
-| shipping_fee_payer | string     | null: false                    |
-| shipping_area      | string     | null: false                    |
-| user               | references | null: false, foreign_key: true |
+| Column                | Type       | Options                        |
+| --------------------- | ---------- | ------------------------------ |
+| title                 | string     | null: false                    |
+| description           | text       | null: false                    |
+| price                 | integer    | null: false                    |
+| condition_id          | integer    | null: false                    |
+| category_id           | integer    | null: false                    |
+| shipping_days_id      | integer    | null: false                    |
+| shipping_fee_payer_id | string     | null: false                    |
+| shipping_area_id      | string     | null: false                    |
+| user                  | references | null: false, foreign_key: true |
 
 ### Association
 - belongs_to :user
-- belongs_to :purchase_record
+- has_one :purchase_record
 - belongs_to_active_hash :condition
 - belongs_to_active_hash :category
 - belongs_to_active_hash :shipping_days
@@ -49,7 +49,7 @@
 
 ### Association
 - belongs_to :user
-- has_one :product
+- belongs_to :product
 - has_one :shipping_infomation
 
 ## shipping_informationsテーブル
@@ -58,11 +58,10 @@
 | ---------------- | -------------- | ------------------------------ |
 | postal_code      | string         | null: false                    |
 | phone_number     | string         | null: false                    |
-| shipping_area    | references     | null: false, foreign_key: true |
+| shipping_area_id | integer        | null: false                    |
 | city             | string         | null: false                    |
 | street           | string         | null: false                    |
 | building         | string         |                                |
-| credit_card      | string         | null: false                    |
 | purchase_record  | references     | null: false, foreign_key: true |
 
 
