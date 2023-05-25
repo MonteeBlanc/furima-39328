@@ -24,8 +24,8 @@
 | title              | string     | null: false                    |
 | description        | text       | null: false                    |
 | price              | integer    | null: false                    |
-| condition_id       | integer    | null: false                    |
-| category_id        | string     | null: false                    |
+| condition          | integer    | null: false                    |
+| category           | integer    | null: false                    |
 | shipping_days      | integer    | null: false                    |
 | shipping_fee_payer | string     | null: false                    |
 | shipping_area      | string     | null: false                    |
@@ -34,8 +34,8 @@
 ### Association
 - belongs_to :user
 - belongs_to :purchase_record
-- belongs_to_active_hash :condition_id
-- belongs_to_active_hash :category_id
+- belongs_to_active_hash :condition
+- belongs_to_active_hash :category
 - belongs_to_active_hash :shipping_days
 - belongs_to_active_hash :shipping_fee_payer
 - belongs_to_active_hash :shipping_area
@@ -56,10 +56,9 @@
 
 | Column           | Type           | Options                        |
 | ---------------- | -------------- | ------------------------------ |
-| address          | string         | null: false                    |
 | postal_code      | string         | null: false                    |
 | phone_number     | string         | null: false                    |
-| prefecture       | string         | null: false                    |
+| shipping_area    | references     | null: false, foreign_key: true |
 | city             | string         | null: false                    |
 | street           | string         | null: false                    |
 | building         | string         |                                |
