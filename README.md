@@ -2,15 +2,16 @@
 
 ## usersテーブル
 
-| Column             | Type   | Options     |
-| ------------------ | ------ | ----------- |
-| email              | string | null: false |
-| encrypted_password | string | null: false |
-| nickname           | string | null: false |
-| profile            | text   | null: false |
-| full_name          | string | null: false |
-| full_name_katakana | string | null: false |
-| date_of_birth      | date   | null: false |
+| Column             | Type   | Options                  |
+| ------------------ | ------ | ------------------------ |
+| email              | string | null: false, unique:true |
+| encrypted_password | string | null: false              |
+| nickname           | string | null: false              |
+| name               | string | null: false              |
+| name_katakana      | string | null: false              |
+| surname            | string | null: false              |
+| surname_katakana   | string | null: false              |
+| date_of_birth      | date   | null: false              |
 
 ### Association
 - has_many :products
@@ -18,19 +19,26 @@
 
 ## productsテーブル
 
-
-| Column       | Type       | Options                        |
-| ------------ | ---------- | ------------------------------ |
-| title        | text       | null: false                    |
-| description  | text       | null: false                    |
-| price        | integer    | null: false                    |
-| condition_id | integer    | null: false                    |
-| category_id  | string     | null: false                    |
-| user         | references | null: false, foreign_key: true |
+| Column             | Type       | Options                        |
+| ------------------ | ---------- | ------------------------------ |
+| title              | string     | null: false                    |
+| description        | text       | null: false                    |
+| price              | integer    | null: false                    |
+| condition_id       | integer    | null: false                    |
+| category_id        | string     | null: false                    |
+| shipping_days      | integer    | null: false                    |
+| shipping_fee_payer | string     | null: false                    |
+| shipping_area      | string     | null: false                    |
+| user               | references | null: false, foreign_key: true |
 
 ### Association
-- belongs_to :users
-- has_one :purchase_records
+- belongs_to :user
+- belongs_to :purchase_record
+- belongs_to_active_hash :condition_id
+- belongs_to_active_hash :category_id
+- belongs_to_active_hash :shipping_days
+- belongs_to_active_hash :shipping_fee_payer
+- belongs_to_active_hash :shipping_area
 
 ## purchase_recordsテーブル
 
@@ -41,19 +49,24 @@
 
 ### Association
 - belongs_to :user
-- has_one :products
-- has_one :shipping_infomations
+- has_one :product
+- has_one :shipping_infomation
 
 ## shipping_informationsテーブル
 
-| Column       | Type       | Options                        |
-| ------------ | ---------- | ------------------------------ |
-| user         | references | null: false, foreign_key: true |
-| address      | string     | null: false                    |
-| postal_code  | string     | null: false                    |
-| phone_number | string     | null: false                    |
-| credit_card  | string     | null: false                    |
-| product      | references | null: false, foreign_key: true |
+| Column           | Type           | Options                        |
+| ---------------- | -------------- | ------------------------------ |
+| address          | string         | null: false                    |
+| postal_code      | string         | null: false                    |
+| phone_number     | string         | null: false                    |
+| prefecture       | string         | null: false                    |
+| city             | string         | null: false                    |
+| street           | string         | null: false                    |
+| building         | string         |                                |
+| credit_card      | string         | null: false                    |
+| purchase_record  | references     | null: false, foreign_key: true |
+
+
 
 ### Association
-- has_one :purchase_records
+- has_one :purchase_record
