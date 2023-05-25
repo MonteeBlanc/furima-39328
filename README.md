@@ -26,17 +26,17 @@
 | price                 | integer    | null: false                    |
 | condition_id          | integer    | null: false                    |
 | category_id           | integer    | null: false                    |
-| shipping_days_id      | integer    | null: false                    |
-| shipping_fee_payer_id | string     | null: false                    |
-| shipping_area_id      | string     | null: false                    |
+| shipping_day_id       | integer    | null: false                    |
+| shipping_fee_payer_id | integer    | null: false                    |
+| shipping_area_id      | integer    | null: false                    |
 | user                  | references | null: false, foreign_key: true |
 
 ### Association
 - belongs_to :user
-- has_one :purchase_record
+- belongs_to :purchase_record
 - belongs_to_active_hash :condition
 - belongs_to_active_hash :category
-- belongs_to_active_hash :shipping_days
+- belongs_to_active_hash :shipping_day
 - belongs_to_active_hash :shipping_fee_payer
 - belongs_to_active_hash :shipping_area
 
@@ -49,7 +49,7 @@
 
 ### Association
 - belongs_to :user
-- belongs_to :product
+- has_one :product
 - has_one :shipping_infomation
 
 ## shipping_informationsテーブル
