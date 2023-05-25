@@ -6,8 +6,11 @@
 | ------------------ | ------ | ----------- |
 | email              | string | null: false |
 | encrypted_password | string | null: false |
-| name               | string | null: false |
+| nickname           | string | null: false |
 | profile            | text   | null: false |
+| full_name          | string | null: false |
+| full_name_katakana | string | null: false |
+| date_of_birth      | date   | null: false |
 
 ### Association
 - has_many :products
@@ -16,15 +19,15 @@
 ## productsテーブル
 
 
-| Column      | Type       | Options                        |
-| ----------  | ---------- | ------------------------------ |
-| title       | text       | null: false                    |
-| description | text       | null: false                    |
-| price       | string     | null: false                    |
-| condition   | text       | null: false                    |
-| category_id | string     | null: false                    |
-| seller_id   | references | null: false, foreign_key: true |
-| buyer_id    | references | null: false, foreign_key: true |
+| Column       | Type       | Options                        |
+| ------------ | ---------- | ------------------------------ |
+| title        | text       | null: false                    |
+| description  | text       | null: false                    |
+| price        | integer    | null: false                    |
+| condition_id | integer    | null: false                    |
+| category_id  | string     | null: false                    |
+| user         | references | null: false, foreign_key: true |
+
 ### Association
 - belongs_to :users
 - has_one :purchase_records
@@ -33,8 +36,8 @@
 
 | Column     | Type       | Options                        |
 | ---------- | ---------- | ------------------------------ |
-| product_id | references | null: false, foreign_key: true |
-| buyer_id   | references | null: false, foreign_key: true |
+| product    | references | null: false, foreign_key: true |
+| user       | references | null: false, foreign_key: true |
 
 ### Association
 - belongs_to :user
@@ -45,10 +48,12 @@
 
 | Column       | Type       | Options                        |
 | ------------ | ---------- | ------------------------------ |
-| user_id      | references | null: false, foreign_key: true |
+| user         | references | null: false, foreign_key: true |
 | address      | string     | null: false                    |
 | postal_code  | string     | null: false                    |
 | phone_number | string     | null: false                    |
+| credit_card  | string     | null: false                    |
+| product      | references | null: false, foreign_key: true |
 
 ### Association
 - has_one :purchase_records
