@@ -33,7 +33,7 @@
 
 ### Association
 - belongs_to :user
-- has_many :purchase_record
+- has_one :purchase_record
 - belongs_to_active_hash :condition
 - belongs_to_active_hash :category
 - belongs_to_active_hash :shipping_day
