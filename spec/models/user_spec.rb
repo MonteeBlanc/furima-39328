@@ -65,6 +65,20 @@ RSpec.describe User, type: :model do
         expect(@user.errors.full_messages).to include("Password must contain at least one letter, one number, and consist of only alphanumeric characters")
       end
 
+      it 'パスワードが数字のみでは登録できない' do
+        @user.password = '123456'
+        @user.password_confirmation = '123456'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password must contain at least one letter, one number, and consist of only alphanumeric characters")
+      end
+
+      it 'パスワードとパスワード（確認用）が不一致だと登録できない' do
+        @user.password = 'password1'
+        @user.password_confirmation = 'password2'
+        @user.valid?
+        expect(@user.errors.full_messages).to include("Password confirmation doesn't match Password")
+      end
+
       it '姓（全角）が空では登録できない' do
         @user.surname = ''
         @user.valid?
