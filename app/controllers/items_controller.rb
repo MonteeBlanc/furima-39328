@@ -8,10 +8,11 @@ class ItemsController < ApplicationController
   end
 
   def show
+    @item_sold_out = @item.sold_out?
   end
 
-  def show
-    @item_sold_out = @item.sold_out?
+  def new
+    @item = Item.new
   end
 
   def create
@@ -51,9 +52,7 @@ class ItemsController < ApplicationController
   end
 
   def check_authorization
-    if @item.sold_out?
-      redirect_to root_path
-    elsif @item.user != current_user
+    if @item.sold_out? || (@item.user != current_user)
       redirect_to root_path
     end
   end
