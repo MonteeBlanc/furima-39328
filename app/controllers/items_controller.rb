@@ -1,19 +1,64 @@
 class ItemsController < ApplicationController
+  before_action :set_item, only: [:show, :edit, :update]
+  before_action :authenticate_user!, only: [:new, :edit, :update]
+  before_action :check_authorization, only: [:edit, :update]
 
-  #def index
-   #@items = Item.all
-  #end
+  def index
+    @items = Item.all
+  end
 
-  #def new
-  #end
-  
-  #def create
-  #end
+  def show
+  end
 
-  #private
+  def show
+    @item_sold_out = @item.sold_out?
+  end
 
-  #def configure_permitted_parameters
-    #devise_parameter_sanitizer.permit(:sign_up, keys: [:nickname, :name, :name_katakana, :surname, :surname_katakana, :date_of_birth])
-  #end
+  def create
+    @item = Item.new(item_params)
+    @item.user = current_user
+
+    if @item.save
+      redirect_to root_path
+    else
+      flash.now[:error] = "保存に失敗しました。"
+      render :new
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    if @item.update(item_params)
+      redirect_to item_path(@item)
+    else
+      flash.now[:error] = "保存に失敗しました。"
+      render :edit
+    end
+  end
+
+  private
+
+  def set_item
+    @item = Item.find(params[:id])
+  end
+
+  def authenticate_user!
+    unless user_signed_in?
+      redirect_to new_user_session_path
+    end
+  end
+
+  def check_authorization
+    if @item.sold_out?
+      redirect_to root_path
+    elsif @item.user != current_user
+      redirect_to root_path
+    end
+  end
+
+  def item_params
+    params.require(:item).permit(:image, :title, :description, :category_id, :condition_id, :shipping_fee_payer_id, :shipping_area_id, :shipping_day_id, :price)
+  end
 end
-
