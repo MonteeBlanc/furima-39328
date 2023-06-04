@@ -45,12 +45,6 @@ class ItemsController < ApplicationController
     @item = Item.find(params[:id])
   end
 
-  def authenticate_user!
-    unless user_signed_in?
-      redirect_to new_user_session_path
-    end
-  end
-
   def check_authorization
     if @item.sold_out? || (@item.user != current_user)
       redirect_to root_path
