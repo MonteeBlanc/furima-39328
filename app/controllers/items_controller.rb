@@ -1,7 +1,7 @@
 class ItemsController < ApplicationController
-  before_action :set_item, only: [:show, :edit, :update]
-  before_action :authenticate_user!, only: [:new, :edit, :update]
-  before_action :check_authorization, only: [:edit, :update]
+  before_action :set_item, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, only: [:new, :edit, :update, :destroy]
+  before_action :check_authorization, only: [:edit, :update, :destroy]
 
   def index
     @items = Item.all
@@ -39,6 +39,11 @@ class ItemsController < ApplicationController
     end
   end
 
+  def destroy
+    @item.destroy
+    redirect_to root_path
+  end
+
   private
 
   def set_item
@@ -48,8 +53,11 @@ class ItemsController < ApplicationController
   def check_authorization
     if @item.sold_out? || (@item.user != current_user)
       redirect_to root_path
+    elsif !user_signed_in?
+      redirect_to new_user_session_path
     end
   end
+  
 
   def item_params
     params.require(:item).permit(:image, :title, :description, :category_id, :condition_id, :shipping_fee_payer_id, :shipping_area_id, :shipping_day_id, :price)
