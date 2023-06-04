@@ -12,6 +12,6 @@ class User < ApplicationRecord
   validates :date_of_birth, presence: true
   validates :password, format: { with: /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]{6,}\z/i, message: 'must contain at least one letter, one number, and consist of only alphanumeric characters' }
 
-  #has_many :products
-  #has_many :purchase_records
+  has_many :items
+  has_many :purchase_records
 end
