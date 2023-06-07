@@ -63,3 +63,4 @@ class ItemsController < ApplicationController
     params.require(:item).permit(:image, :title, :description, :category_id, :condition_id, :shipping_fee_payer_id, :shipping_area_id, :shipping_day_id, :price)
   end
 end
+
