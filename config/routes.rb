@@ -3,9 +3,9 @@ Rails.application.routes.draw do
 
   root to: 'items#index'
 
-  resources :items
+  resources :items do
+    resources :orders, only: [:index, :create]
+  end
+
   resources :articles
 end
-
-
-

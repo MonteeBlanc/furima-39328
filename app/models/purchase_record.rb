@@ -1,8 +1,8 @@
 class PurchaseRecord < ApplicationRecord
-  belongs_to :product
+  belongs_to :item
   belongs_to :user
 
-  validates :product, presence: true
+  validates :item, presence: true
   validates :user, presence: true
 end
 

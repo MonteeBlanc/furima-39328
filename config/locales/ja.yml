@@ -1,0 +1,14 @@
+ja:
+  activerecord:
+    attributes:
+      order:
+        price: "金額"
+        token: "トークン"
+    errors:
+      models:
+        order:
+          attributes:
+            price:
+              blank: "を入力してください"
+            token:
+              blank: "を入力してください"
