@@ -1,10 +1,12 @@
 class OrdersController < ApplicationController
   before_action :set_item, only: [:index, :create]
   before_action :authenticate_user!
-
+  
   def index
-    if @item.blank? || (@item.user == current_user && !@item.sold_out?)
+    if @item.blank? || (@item.sold_out? && @item.user != current_user)
       redirect_to root_path, alert: '商品が存在しません。'
+    elsif @item.user == current_user
+      redirect_to root_path, alert: '自身が出品した商品は購入できません。'
     else
       @order_form = PurchaseForm.new(user_id: current_user.id, item_id: @item.id)
     end
