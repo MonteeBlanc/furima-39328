@@ -51,16 +51,14 @@ class ItemsController < ApplicationController
   end
 
   def check_authorization
-    if @item.sold_out? || (@item.user != current_user)
+    if @item.user != current_user || (@item.purchase_records.present? && user_signed_in?)
       redirect_to root_path
     elsif !user_signed_in?
       redirect_to new_user_session_path
     end
   end
-  
 
   def item_params
     params.require(:item).permit(:image, :title, :description, :category_id, :condition_id, :shipping_fee_payer_id, :shipping_area_id, :shipping_day_id, :price)
   end
 end
-

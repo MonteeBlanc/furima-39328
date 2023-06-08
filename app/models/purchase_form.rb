@@ -23,8 +23,8 @@ class PurchaseForm
     )
 
     if purchase_record.save
-      ShippingInformation.create!(
-        purchase_record: purchase_record,
+      shipping_information = ShippingInformation.new(
+        purchase_record_id: purchase_record.id,
         postal_code: postal_code,
         shipping_area_id: shipping_area_id,
         city: city,
@@ -32,9 +32,18 @@ class PurchaseForm
         building: building,
         phone_number: phone_number
       )
+
+      if shipping_information.save
+        return true
+      else
+        errors.add(:base, 'Failed to save ShippingInformation')
+        return false
+      end
     else
+      errors.add(:base, 'Failed to save PurchaseRecord')
       false
     end
   end
 end
+
 
