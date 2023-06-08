@@ -2,7 +2,6 @@ class Item < ApplicationRecord
   belongs_to :user
   has_many :purchase_records
   has_one_attached :image
-  has_many :orders
 
   belongs_to :condition, class_name: 'Condition', foreign_key: 'condition_id', optional: true
   belongs_to :category, class_name: 'Category', foreign_key: 'category_id', optional: true

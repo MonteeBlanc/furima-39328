@@ -32,18 +32,6 @@ class PurchaseForm
         building: building,
         phone_number: phone_number
       )
-
-      if shipping_information.save
-        return true
-      else
-        errors.add(:base, 'Failed to save ShippingInformation')
-        return false
-      end
-    else
-      errors.add(:base, 'Failed to save PurchaseRecord')
-      false
     end
   end
 end
-
-
