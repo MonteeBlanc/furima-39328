@@ -1,7 +1,7 @@
 class PurchaseRecordsController < ApplicationController
   before_action :set_item, only: [:index, :create]
   before_action :authenticate_user!
-  
+
   def index
     if @item.blank? || (@item.sold_out? && @item.user != current_user)
       redirect_to root_path, alert: '商品が存在しません。'
@@ -13,17 +13,18 @@ class PurchaseRecordsController < ApplicationController
   end
 
   def create
-    @purchase_form = PurchaseForm.new(order_params)
-    @purchase_form.user_id = current_user.id
-    @purchase_form.item_id = @item.id
-    if @purchase_form.save_with_related_records
+    @purchase_form = PurchaseForm.new(order_params) do |pf|
+      pf.user_id = current_user.id
+      pf.item_id = @item.id
+    end
+  
+    if @purchase_form.valid? && pay_item(@purchase_form.token).present?
+      @purchase_form.save_with_related_records
       redirect_to root_path
     else
       render :index
     end
   end
-  
-  
 
   private
 
@@ -36,12 +37,14 @@ class PurchaseRecordsController < ApplicationController
   end
 
   def pay_item(token)
-    puts "Token in pay_item: #{token}"
     Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
       amount: @item.price,
       card: token,
       currency: 'jpy'
     )
+  rescue Payjp::CardError => e
+    puts "Payjp::CardError: #{e.message}"
+    nil
   end
 end
