@@ -13,12 +13,12 @@ class PurchaseRecordsController < ApplicationController
   end
 
   def create
-    @purchase_form = PurchaseForm.new(order_params) do |pf|
-      pf.user_id = current_user.id
-      pf.item_id = @item.id
-    end
-  
-    if @purchase_form.valid? && pay_item(@purchase_form.token).present?
+    @purchase_form = PurchaseForm.new(order_params)
+    @purchase_form.user_id = current_user.id
+    @purchase_form.item_id = @item.id
+    
+    if @purchase_form.valid?
+      pay_item(@purchase_form.token)
       @purchase_form.save_with_related_records
       redirect_to root_path
     else
