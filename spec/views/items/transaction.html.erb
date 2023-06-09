@@ -1,0 +1,54 @@
+require 'rails_helper'
+
+RSpec.describe "items/transaction.html.erb", type: :view do
+  before do
+    @item = FactoryBot.create(:item)
+    @order_form = FactoryBot.build(:order_form, item: @item)
+  end
+
+  context "必要な情報がすべて提供されている場合" do
+    it "商品の情報が表示されること" do
+      render
+      expect(rendered).to have_css(".buy-item-text", text: @item.title)
+      expect(rendered).to have_css(".item-price-text", text: "¥#{@item.price}")
+      expect(rendered).to have_css(".item-price-sub-text", text: @item.shipping_fee_payer_id)
+    end
+  end
+
+  context "注文フォームにエラーがある場合" do
+    before do
+      @order_form.errors.add(:base, "エラーメッセージ")
+      assign(:order_form, @order_form)
+    end
+
+    it "エラーメッセージが表示されること" do
+      render
+      expect(rendered).to have_css(".error-alert", text: "エラーメッセージ")
+    end
+  end
+
+  context "注文フォームを送信する場合" do
+    before do
+      assign(:order_form, @order_form)
+    end
+
+    it "正しいフィールドが表示されること" do
+      render
+      expect(rendered).to have_field("order_form_credit_card")
+      expect(rendered).to have_field("order_form_exp_month")
+      expect(rendered).to have_field("order_form_exp_year")
+      expect(rendered).to have_field("order_form_cvc")
+      expect(rendered).to have_field("order_form_postal_code")
+      expect(rendered).to have_field("order_form_shipping_area_id")
+      expect(rendered).to have_field("order_form_city")
+      expect(rendered).to have_field("order_form_street")
+      expect(rendered).to have_field("order_form_building")
+      expect(rendered).to have_field("order_form_phone_number")
+    end
+
+    it "送信ボタンが表示されること" do
+      render
+      expect(rendered).to have_button("購入")
+    end
+  end
+end
