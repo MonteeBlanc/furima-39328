@@ -7,16 +7,16 @@ class PurchaseForm
     validates :user_id
     validates :item_id
     validates :postal_code, format: { with: /\A\d{3}-\d{4}\z/, message: "はハイフンを含む7桁の数字で入力してください" }
-    validates :shipping_area_id
+    validates :shipping_area_id, numericality: { other_than: 1, message: "を選択してください" }
     validates :city
     validates :street
     validates :phone_number, format: { with: /\A\d{10,11}\z/, message: "はハイフンなしの10桁または11桁の数字で入力してください" }
     validates :token
   end
 
-  validates :shipping_area_id, numericality: { other_than: 0, message: "を選択してください" }
-
   def save_with_related_records
+    return unless valid?
+
     purchase_record = PurchaseRecord.new(
       user_id: user_id,
       item_id: item_id
@@ -32,6 +32,10 @@ class PurchaseForm
         building: building,
         phone_number: phone_number
       )
+      shipping_information.save
     end
+
+    purchase_record
   end
 end
+
