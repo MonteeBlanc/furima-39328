@@ -13,10 +13,15 @@
         </h2>
         <div class='buy-item-price'>
           <p class='item-price-text'>¥ <%= number_with_delimiter(@item.price) %></p>
-          <% if @item.shipping_fee_payer_id == 2 %>
-          <% else %>
-            <p class='item-price-sub-text'><%= @item.shipping_fee_payer_id %></p>
-          <% end %>
+          <p class='item-price-sub-text'>
+            <% if @item.shipping_fee_payer_id == 2 %>
+              着払い(購入者負担)
+            <% elsif @item.shipping_fee_payer_id == 3 %>
+              送料込み(出品者負担)
+            <% else %>
+              送料情報なし
+            <% end %>
+          </p>
         </div>
       </div>
     </div>

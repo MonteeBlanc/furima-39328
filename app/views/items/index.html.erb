@@ -134,7 +134,7 @@
                 <%= item.title %>
               </h3>
               <div class='item-price'>
-                <span><%= item.price %>円<br>(税込み)</span>
+                <span><%= item.price %>円<br><%= ShippingFeePayer.find(item.shipping_fee_payer_id).name %></span>
                 <div class='star-btn'>
                   <%= image_tag "star.png", class:"star-icon" %>
                   <span class='star-count'>0</span>
