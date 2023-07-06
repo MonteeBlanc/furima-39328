@@ -13,11 +13,11 @@ class Item < ApplicationRecord
   validates :title, presence: true
   validates :description, presence: true
   validates :price, presence: true, numericality: { greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999 }
-  validates :condition_id, presence: true, exclusion: { in: [1], message: 'is not a valid choice' }
-  validates :category_id, presence: true, exclusion: { in: [1], message: 'is not a valid choice' }
-  validates :shipping_day_id, presence: true, exclusion: { in: [1], message: 'is not a valid choice' }
-  validates :shipping_fee_payer_id, presence: true, exclusion: { in: [1], message: 'is not a valid choice' }
-  validates :shipping_area_id, presence: true, exclusion: { in: [1], message: 'is not a valid choice' }
+  validates :condition_id, presence: true, exclusion: { in: [1], message: 'を選択してください' }
+  validates :category_id, presence: true, exclusion: { in: [1], message: 'を選択してください' }
+  validates :shipping_day_id, presence: true, exclusion: { in: [1], message: 'を選択してください' }
+  validates :shipping_fee_payer_id, presence: true, exclusion: { in: [1], message: 'を選択してください' }
+  validates :shipping_area_id, presence: true, exclusion: { in: [1], message: 'を選択してください' }
   validate :validate_price_format
 
   default_scope -> { order(created_at: :desc) }
